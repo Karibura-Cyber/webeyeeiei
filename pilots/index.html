@@ -15,21 +15,25 @@
     h1,h2,h3{
         font-family: 'Prompt', sans-serif;
     }
+    .header{
+        position:sticky;
+        top: 0 ;
+    }
   </style>
   <body>
     <input class="form-control bg-dark text-light " id="Input" type="text" placeholder="Search">
-    <table class="table table-dark table-hover table-bordered border-light">
+    <table class="table table-dark table-hover table-bordered border-light" id="table">
       <thead>
         <tr>
-          <th scope="col">Callsign</th>
-          <th scope="col">Rating</th>
-          <th scope="col">Aircraft Type</th>
-          <th scope="col">Departure</th>
-          <th scope="col">Arrival</th>
-          <th scope="col">Transponder</th>
-          <th scope="col">Route</th>
-          <th scope="col">Remarks</th>
-          <th scope="col">State</th>
+          <th scope="col" class="header">Callsign</th>
+          <th scope="col" class="header">Rating</th>
+          <th scope="col" class="header">Aircraft Type</th>
+          <th scope="col" class="header">Departure</th>
+          <th scope="col" class="header">Arrival</th>
+          <th scope="col" class="header">Transponder</th>
+          <th scope="col" class="header">Route</th>
+          <th scope="col" class="header">Remarks</th>
+          <th scope="col" class="header">State</th>
         </tr>
       </thead>
       <tbody id="Table"></tbody>
@@ -39,54 +43,7 @@
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
-  <script>
-    $.getJSON('https://api.ivao.aero/v2/tracker/whazzup', function (data) {
-        var clients = data.clients;
-        var pilots = data.clients.pilots;
-        for (var i = 0; i < pilots.length; i++) {
-          var pilot = pilots[i];
-          var callsign = pilot.callsign;
-          var fpl = pilot.flightPlan;
-          var aircraftType = fpl.aircraft.icaoCode;
-          var route = fpl.route;
-          var remarks = fpl.remarks;
-          var departure = fpl.departureId;
-          var arrival = fpl.arrivalId;
-          var state = pilot.lastTrack.state;
-          var sqk = pilot.lastTrack.transponder;
-          var rating = pilot.rating;
-          rating = parseInt(rating);
-          var rating_list = ["FS1", "FS2", "FS3", "PP", "SPP", "CP"]
-          if (state == "On Blocks" || state == "Landed") {
-            var row = $('<tr class="table-success">');
-          }
-          else if(state == "En Route" || state == "Departing"){
-            var row = $('<tr class="table-warning">');
-          }
-          else if(state == "Approach"){
-            var row = $('<tr class="table-info">');
-          }
-          else if(state == "Initial Climb"){
-            var row = $('<tr class="table-danger">');
-          }          
-          else {
-            var row = $('<tr class="table-secondary">');
-          }
-          row.append($('<td>').text(callsign));
-          row.append($('<td>').text(rating_list[rating-2]));
-          row.append($('<td>').text(aircraftType));
-          row.append($('<td>').text(departure));
-          row.append($('<td>').text(arrival));
-          row.append($('<td>').text(sqk));
-          row.append($('<td>').text(route));
-          row.append($('<td>').text(remarks));
-          row.append($('<td>').text(state));
-          $('tbody').append(row);
-
-        }
-      }
-    );
-  </script>
+  <script type="text/javascript" src="pilot.js"></script>
 <script>
   $(document).ready(function(){
     $("#Input").on("keyup", function() {

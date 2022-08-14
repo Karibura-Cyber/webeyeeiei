@@ -15,17 +15,21 @@
   h1,h2,h3{
       font-family: 'Prompt', sans-serif;
   }
+  .header{
+        position:sticky;
+        top: 0 ;
+    }
 </style>
 <body>
   <input class="form-control bg-dark text-light" id="Input" type="text" placeholder="Search">
   <table class="table table-dark table-hover table-bordered border-light">
     <thead>
       <tr>
-        <th scope="col">Callsign</th>
-        <th scope="col">Rating</th>
-        <th scope="col">Frequency (MHz)</th>
-        <th scope="col">Position</th>
-        <th scope="col">ATIS</th>
+        <th scope="col" class="header">Callsign</th>
+        <th scope="col" class="header">Rating</th>
+        <th scope="col" class="header">Frequency (MHz)</th>
+        <th scope="col" class="header">Position</th>
+        <th scope="col" class="header">ATIS</th>
         <!-- <th scope="col">METAR</th> -->
       </tr>
     </thead>
@@ -36,49 +40,9 @@
 
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
-<script>
-  $.getJSON('https://api.ivao.aero/v2/tracker/whazzup', function (data) {
-      var clients = data.clients;
-      var atcs = data.clients.atcs;
-      for (var i = 0; i < atcs.length; i++) {
-        var atc = atcs[i];
-        var callsign = atc.callsign;
-        var frequency = atc.atcSession.frequency;
-        var atis = atc.atis.lines;
-        var potision = atis[1];
-        var metar = atis[3];
-        var rating = atc.rating;
-        rating = parseInt(rating);
-        var rating_list = ["AS1", "AS2", "AS3", "ADC", "APC", "ACC", "SEC", "SAI", "CAI"]
-        atis = atis.join('<br>');
-        var rating_name = rating_list[rating - 2];
-        if (rating == 2){
-          var row = '<tr class="table-danger"><th scope="row">' + callsign + '</th><td>' + rating_name + '</td><td>' + frequency + '</td><td>' + potision + '</td><td>' + atis + '</td></tr>';
-        }
-        else if (rating == 3){
-          var row = '<tr class="table-warning"><th scope="row">' + callsign + '</th><td>' + rating_name + '</td><td>' + frequency + '</td><td>' + potision + '</td><td>' + atis + '</td></tr>';
-        }
-        else if (rating == 4){
-          var row = '<tr class="table-info"><th scope="row">' + callsign + '</th><td>' + rating_name + '</td><td>' + frequency + '</td><td>' + potision + '</td><td>' + atis + '</td></tr>';
-        }
-        else if (rating == 5){
-          var row = '<tr class="table-primary"><th scope="row">' + callsign + '</th><td>' + rating_name + '</td><td>' + frequency + '</td><td>' + potision + '</td><td>' + atis + '</td></tr>';
-        }
-        else if (rating == 6){
-          var row = '<tr class="table-success"><th scope="row">' + callsign + '</th><td>' + rating_name + '</td><td>' + frequency + '</td><td>' + potision + '</td><td>' + atis + '</td></tr>';
-        }
-        else if (rating == 7){
-          var row = '<tr class="table-success"><th scope="row">' + callsign + '</th><td>' + rating_name + '</td><td>' + frequency + '</td><td>' + potision + '</td><td>' + atis + '</td></tr>';
-        }
-        else if (rating == 8){
-          var row = '<tr class="table-success"><th scope="row">' + callsign + '</th><td>' + rating_name + '</td><td>' + frequency + '</td><td>' + potision + '</td><td>' + atis + '</td></tr>';
-    }
-        $('#Table').append(row);
-      }
-  });
-    
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script type="text/javascript" src="atc.js"></script>
 
-</script>
 <script>
   $(document).ready(function(){
     $("#Input").on("keyup", function() {
@@ -90,4 +54,5 @@
   });
   </script>
 
-</body></html>
+</body>
+</html>
