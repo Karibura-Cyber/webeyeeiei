@@ -17,11 +17,12 @@
     }
   </style>
   <body>
-    <input class="form-control bg-dark text-light" id="Input" type="text" placeholder="Search">
+    <input class="form-control bg-dark text-light " id="Input" type="text" placeholder="Search">
     <table class="table table-dark table-hover table-bordered border-light">
       <thead>
         <tr>
           <th scope="col">Callsign</th>
+          <th scope="col">Rating</th>
           <th scope="col">Aircraft Type</th>
           <th scope="col">Departure</th>
           <th scope="col">Arrival</th>
@@ -53,6 +54,9 @@
           var arrival = fpl.arrivalId;
           var state = pilot.lastTrack.state;
           var sqk = pilot.lastTrack.transponder;
+          var rating = pilot.rating;
+          rating = parseInt(rating);
+          var rating_list = ["FS1", "FS2", "FS3", "PP", "SPP", "CP"]
           if (state == "On Blocks" || state == "Landed") {
             var row = $('<tr class="table-success">');
           }
@@ -69,6 +73,7 @@
             var row = $('<tr class="table-secondary">');
           }
           row.append($('<td>').text(callsign));
+          row.append($('<td>').text(rating_list[rating-2]));
           row.append($('<td>').text(aircraftType));
           row.append($('<td>').text(departure));
           row.append($('<td>').text(arrival));
